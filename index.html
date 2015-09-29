@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="jp">
+	<head>
+  	<meta charset="utf-8"/>
+    <link href="../../../css/bootstrap.css" rel="stylesheet">
+    <link href="../../../assets/googlecodeprettify/sons-of-obsidian.css" rel="stylesheet">
+  	<title>React D3 lodash</title>
+ 	<body>
+    <div class="container">
+
+    <h2>React deck of card</h2>
+    <div class="row">
+      
+      <button 
+        id="stackBtn" 
+        class="btn btn-info"
+      >
+        積む
+      </button>
+      <button 
+        id="suitBtn" 
+        class="btn btn-info"
+      >
+        スートごと
+      </button>
+      <button 
+        id="cutBtn" 
+        class="btn btn-info"
+      >
+        カット
+      </button>
+      <button 
+        id="shuffleBtn" 
+        class="btn btn-info"
+      >
+        シャッフル
+      </button>
+      <button 
+        id="sortBtn" 
+        class="btn btn-info"
+      >
+        ソート
+      </button>
+      <button 
+        id="vLineBtn" 
+        class="btn btn-info"
+      >
+        V字
+      </button>
+
+    </div>
+
+    <div class="row">
+      
+        <div id="table"></div>
+      
+    </div>
+
+    </div> <!-- container -->
+
+    <script src="bundle.js"></script>
+    <script src="../../../assets/googlecodeprettify/prettify.js"></script>
+    <script src="../../../js/jquery.js"></script>
+
+    <script type="text/javascript">
+
+  var $window = $(window)
+  // make code pretty
+  window.prettyPrint && prettyPrint()
+  $('pre').addClass('prettyprint');
+  prettyPrint();
+  $('pre').css("background","#000");
+  $('pre').css("font-size","1.2em");
+
+    </script>
+  </body>
+</html>
