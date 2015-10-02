@@ -114,9 +114,12 @@ class Cards extends React.Component {
     );
   }
 
-}
-
+} 
+  
   $('#stackBtn').on("click",function(){
+    
+    removeFan();
+    
     for (var i=0; i<length; i++) {
  
       var
@@ -126,13 +129,23 @@ class Cards extends React.Component {
       $("#card-" +cardOrder[i].index)
         .delay(20*i)
         .animate({top:yPos  +　"px",
-                     left:xPos + "px"});
+                 left:xPos + "px"},
+                 {
+                   step:function(){
+                        $(this).css({transform:'rotate(0deg)'})          
+                       }
+                   } 
+                 );
 
     }
 
   });
 
+
   $('#suitBtn').on("click",function(){
+    
+    removeFan();
+
     for (var i=length; i>0; i--) {
  
       var
@@ -142,7 +155,14 @@ class Cards extends React.Component {
       $("#card-" +i)
         .delay(20*(length-i))
         .animate({top:yPos  +　"px",
-                     left:xPos + "px"});
+                 left:xPos + "px"},
+                {
+                   step:function(){
+                        $(this).css({transform:'rotate(0deg)'})          
+                       }
+                   } 
+
+                 );
 
     }
 
@@ -155,6 +175,8 @@ class Cards extends React.Component {
       yPos, 
       cutPos;
 
+    removeFan();  
+
     cutPos = Math.floor(Math.random()*length)+1;
 
     for (i=length-1;i>=cutPos;i--){
@@ -164,7 +186,14 @@ class Cards extends React.Component {
       $("#card-" +cardOrder[i].index)
         .delay(0)
         .animate({top:yPos  +　"px",
-                     left:xPos + "px"});
+                     left:xPos + "px"},
+                {
+                   step:function(){
+                        $(this).css({transform:'rotate(0deg)'})          
+                       }
+                   } 
+
+                     );
     
     }; 
 
@@ -197,7 +226,14 @@ class Cards extends React.Component {
       $("#card-" +cardOrder[i].index)
         .delay(250)
         .animate({top:yPos  +　"px",
-                     left:xPos + "px"});
+                     left:xPos + "px"},
+                {
+                   step:function(){
+                        $(this).css({transform:'rotate(0deg)'})          
+                       }
+                   } 
+
+                     );
 
     };
  
@@ -208,6 +244,8 @@ class Cards extends React.Component {
      var
       xPos,
       yPos = 0;
+
+    removeFan();  
 
     for  (var i=0;i<length;i++){
 
@@ -223,7 +261,14 @@ class Cards extends React.Component {
       $("#card-" +cardOrder[i].index)
         .delay(20*i)
         .animate({top:yPos +　"px",
-                 left:xPos + "px","zIndex":i});
+                 left:xPos + "px","zIndex":i},
+                {
+                   step:function(){
+                        $(this).css({transform:'rotate(0deg)'})          
+                       }
+                   } 
+
+                 );
 
     };
 
@@ -234,6 +279,8 @@ class Cards extends React.Component {
   $('#sortBtn').on("click",function(){
     var
       xPos,yPos;
+
+    removeFan();  
  
     for  (var i=1;i<=length;i++){
       xPos = 10-i*(10/length)+600;
@@ -256,7 +303,14 @@ class Cards extends React.Component {
       $("#card-" +cardOrder[i].index)
         .delay(1500)
         .animate({top:yPos  +　"px",
-                 left:xPos + "px"});
+                 left:xPos + "px"},
+                {
+                   step:function(){
+                        $(this).css({transform:'rotate(0deg)'})          
+                       }
+                   } 
+
+                 );
 
     }
 
@@ -271,6 +325,8 @@ class Cards extends React.Component {
       basePos, 
       cutPos;
 
+    removeFan();  
+
     for (var j=0;j<3;j++){
 
       cutPos = _.random(11,26);
@@ -283,7 +339,14 @@ class Cards extends React.Component {
         $("#card-" +cardOrder[i].index)
           .delay(0)
           .animate({top:yPos  +　"px",
-                   left:xPos + "px"});
+                   left:xPos + "px"},
+                {
+                   step:function(){
+                        $(this).css({transform:'rotate(0deg)'})          
+                       }
+                   } 
+
+                   );
       }; 
 
       workOrder = [];
@@ -303,7 +366,14 @@ class Cards extends React.Component {
 
         $("#card-" +cardOrder[i].index)
           .delay(0)
-          .animate({"zIndex":i});
+          .animate({"zIndex":i},
+                {
+                   step:function(){
+                        $(this).css({transform:'rotate(0deg)'})          
+                       }
+                   } 
+
+            );
       };
     
       for  (var i=0;i<length;i++){
@@ -322,6 +392,68 @@ class Cards extends React.Component {
     }; // loop   
 
   });
+  
+  
+  /* 
+      扇状に並べる　　
+      　　　　　　　　　　*/
+  $('#fanBtn').on("click",function(){
 
+    var aDeg = Math.PI/180;
+    var aStep= 200/length;
+    var rStep= 320/length;
+    for (var i=0; i<length; i++) {
+        var
+          rad = 160 + aStep*i*aDeg,
+          xPos = 150*Math.cos(rad)+250,
+          yPos = 150*Math.sin(rad)+250;
+
+        $("#card-" +cardOrder[i].index)
+            .delay(20*i)
+            .animate(
+              {top:yPos  +　"px",left:xPos + "px"},
+              {duration:100,
+               complete:function(){
+                        var cardIndex = this.id.replace("card-","");
+                        var inx = _.findIndex(cardOrder,function(ch){
+                          return ch.index == cardIndex;
+                        })
+                         var rDeg = -160 + rStep * inx;
+                         $(this).css({transform:'rotate('+ rDeg +'deg)'})
+                        }
+              }
+             );
+
+ 
+    }
+
+    $(".card").addClass("fan");
+    
+  });
+
+  /* 
+      フリップ
+              */
+  $('#flipBtn').on("click",function(){
+
+      if ($(".card").hasClass("back")) {
+        $(".card").removeClass("back");
+        $(".suit-left").css("opacity",1);
+        $(".suit-right").css("opacity",1);
+        $(".value-left").css("opacity",1);
+        $(".value-right").css("opacity",1);
+      } else {
+        $(".card").addClass("back");
+        $(".suit-left").css("opacity",0);
+        $(".suit-right").css("opacity",0);
+        $(".value-left").css("opacity",0);
+        $(".value-right").css("opacity",0);
+      }
+
+  });
+
+  function removeFan() {
+    $(".card").removeClass("fan");
+  }
 
 module.exports = Cards;
